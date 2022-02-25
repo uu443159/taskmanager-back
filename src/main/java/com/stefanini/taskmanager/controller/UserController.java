@@ -1,7 +1,10 @@
 package com.stefanini.taskmanager.controller;
 
 import com.stefanini.taskmanager.model.User;
+import com.stefanini.taskmanager.model.UserRole;
+import com.stefanini.taskmanager.repository.UserRoleRepository;
 import com.stefanini.taskmanager.service.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,18 +14,21 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final UserRoleRepository userRoleRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.userRoleRepository = userRoleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/save")
-    public String addNewUser(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String userName) {
-        User user = new User();
+    public String addNewUser(@RequestBody User user) {
+        UserRole userRole = userRoleRepository.findById(2);
 
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setUserName(userName);
+        user.setUserRole(userRole);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userService.addUser(user);
 

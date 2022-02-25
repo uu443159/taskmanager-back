@@ -3,6 +3,7 @@ package com.stefanini.taskmanager.service.impl;
 import com.stefanini.taskmanager.model.User;
 import com.stefanini.taskmanager.repository.UserRepository;
 import com.stefanini.taskmanager.service.UserService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,5 +50,15 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void removeUserById(long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public User showUserByName(String userName) throws UsernameNotFoundException {
+        return userRepository.findByName(userName);
+    }
+
+    @Override
+    public User showUserByNameAndPass(String userName, String pass) {
+        return userRepository.findByLoginAndPass(userName, pass);
     }
 }

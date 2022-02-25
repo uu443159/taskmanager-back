@@ -26,6 +26,13 @@ public class User {
     @Column(name = "user_Name", nullable = false, length = 100)
     private String userName;
 
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private UserRole userRole;
+
     @ManyToMany
     @JoinTable(name = "user_task",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -73,6 +80,22 @@ public class User {
         this.taskList = taskList;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -80,6 +103,7 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }
