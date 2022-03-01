@@ -23,17 +23,17 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @PostMapping("/save")
-    public String addNewUser(@RequestBody User user) {
-        UserRole userRole = userRoleRepository.findById(2);
-
-        user.setUserRole(userRole);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        userService.addUser(user);
-
-        return "Saved";
-    }
+//    @PostMapping("/save")
+//    public String addNewUser(@RequestBody User user) {
+//        UserRole userRole = userRoleRepository.findById(2);
+//
+//        user.setUserRole(userRole);
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//
+//        userService.addUser(user);
+//
+//        return "Saved";
+//    }
 
     @PutMapping("/update/{id}")
     public String updateUser(@PathVariable(value = "id") Long userId, @RequestParam String firstName, @RequestParam String lastName) {

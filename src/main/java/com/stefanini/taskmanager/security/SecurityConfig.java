@@ -33,23 +33,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors()
-                .and()
                 .httpBasic().disable()
                 .csrf().disable()
 
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-//                    .antMatchers("").permitAll()
-                .antMatchers("/user/save", "/user/update/*", "/user/delete/*", "/*", "task/*").hasRole("USER")
-                .antMatchers("/user/*", "task/*").hasRole("ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/register").permitAll()
-                .and()
-                .logout().permitAll()
+                .antMatchers("/api/v1/register", "api/v1/auth").permitAll()
+                .antMatchers("/api/**").authenticated()
                 .and()
                 .addFilterBefore(getJwtFilter(), UsernamePasswordAuthenticationFilter.class);
     }

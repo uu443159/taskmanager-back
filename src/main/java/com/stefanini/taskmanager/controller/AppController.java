@@ -34,18 +34,8 @@ public class AppController {
         System.out.println("!");
 
         try {
-            User user = new User();
-            UserRole userRole = new UserRole();
 
-            user.setPassword(registrationRequest.getPassword());
-            user.setUserName(registrationRequest.getUserName());
-            user.setFirstName(registrationRequest.getFirstName());
-            user.setLastName(registrationRequest.getLastName());
-
-            userRole.setRoleName(registrationRequest.getRoleName());
-            user.setUserRole(userRole);
-
-            userService.addUser(user);
+            userService.addUser(registrationRequest);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(((UserDetailsServiceImpl) userDetailsService).login(new AuthRequest(registrationRequest.getUserName(), registrationRequest.getPassword())));
         } catch (UnexpectedRollbackException ex) {

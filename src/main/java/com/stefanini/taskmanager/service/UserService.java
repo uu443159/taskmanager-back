@@ -1,13 +1,14 @@
 package com.stefanini.taskmanager.service;
 
 import com.stefanini.taskmanager.model.User;
+import com.stefanini.taskmanager.security.RegistrationRequest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
 
 public interface UserService {
 
-    void addUser(User user);
+    void addUser(RegistrationRequest registrationRequest);
 
     void updateUser(User user);
 
