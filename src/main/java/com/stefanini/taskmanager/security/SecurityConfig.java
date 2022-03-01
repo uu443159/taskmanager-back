@@ -1,14 +1,11 @@
 package com.stefanini.taskmanager.security;
 
-import com.stefanini.taskmanager.repository.UserRepository;
-import com.stefanini.taskmanager.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -22,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
     private JwtProvider jwtProvider;
@@ -41,20 +38,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .csrf().disable()
 
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
 //                    .antMatchers("").permitAll()
-                    .antMatchers("/user/save", "/user/update/*", "/user/delete/*", "/*", "task/*").hasRole("USER")
-                    .antMatchers("/user/*", "task/*").hasRole("ADMIN")
-                    .anyRequest().authenticated()
-                    .and()
+                .antMatchers("/user/save", "/user/update/*", "/user/delete/*", "/*", "task/*").hasRole("USER")
+                .antMatchers("/user/*", "task/*").hasRole("ADMIN")
+                .anyRequest().authenticated()
+                .and()
                 .formLogin()
-                    .loginPage("/signin").permitAll()
-                    .and()
+                .loginPage("/register").permitAll()
+                .and()
                 .logout().permitAll()
-        .and()
-        .addFilterBefore(getJwtFilter(), UsernamePasswordAuthenticationFilter.class);
+                .and()
+                .addFilterBefore(getJwtFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

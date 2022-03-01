@@ -35,7 +35,7 @@ public class UserRepositoryImpl extends GenericRepositoryImpl<User> implements U
     @Override
     public User findByLoginAndPass(String userName, String password) {
         User user = findByName(userName);
-        if(user != null) {
+        if (user != null) {
             if (passwordEncoder.matches(password, user.getPassword())) {
                 return user;
             }

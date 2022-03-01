@@ -1,6 +1,7 @@
 package com.stefanini.taskmanager.security;
 
 import lombok.Data;
+
 import javax.validation.constraints.NotEmpty;
 
 @Data

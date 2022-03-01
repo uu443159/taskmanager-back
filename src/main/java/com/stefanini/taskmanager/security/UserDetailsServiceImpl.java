@@ -11,17 +11,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
+@Primary
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-   private final UserService userService;
-   private final AuthenticationManager authenticationManager;
-   private final JwtProvider jwtProvider;
+    private UserService userService;
+    private AuthenticationManager authenticationManager;
+    private JwtProvider jwtProvider;
 
-    public UserDetailsServiceImpl(UserService userService, AuthenticationManager authenticationManager, JwtProvider jwtProvider) {
-        this.userService = userService;
-        this.authenticationManager = authenticationManager;
-        this.jwtProvider = jwtProvider;
-    }
+//    public UserDetailsServiceImpl(UserService userService, AuthenticationManager authenticationManager, JwtProvider jwtProvider) {
+//        this.userService = userService;
+//        this.authenticationManager = authenticationManager;
+//        this.jwtProvider = jwtProvider;
+//    }
 
     @Override
     public UserDetailsImpl loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -34,5 +35,29 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getLogin(), authRequest.getPassword()));
 
         return jwtProvider.generateToken(authentication);
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    public AuthenticationManager getAuthenticationManager() {
+        return authenticationManager;
+    }
+
+    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
+
+    public JwtProvider getJwtProvider() {
+        return jwtProvider;
+    }
+
+    public void setJwtProvider(JwtProvider jwtProvider) {
+        this.jwtProvider = jwtProvider;
     }
 }

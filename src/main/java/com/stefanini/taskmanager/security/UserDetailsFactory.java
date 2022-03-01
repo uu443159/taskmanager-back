@@ -6,7 +6,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +24,7 @@ public final class UserDetailsFactory {
     private static List<GrantedAuthority> mapToGrantedAuthorities(List<UserRole> userRoles) {
         return userRoles.stream()
                 .map(role -> new
-                SimpleGrantedAuthority(role.getRoleName()))
+                        SimpleGrantedAuthority(role.getRoleName()))
                 .collect(Collectors.toList());
     }
 }

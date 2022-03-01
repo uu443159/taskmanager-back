@@ -2,21 +2,26 @@ package com.stefanini.taskmanager.controller;
 
 import com.stefanini.taskmanager.model.User;
 import com.stefanini.taskmanager.model.UserRole;
-import com.stefanini.taskmanager.security.*;
+import com.stefanini.taskmanager.security.AuthRequest;
+import com.stefanini.taskmanager.security.RegistrationRequest;
+import com.stefanini.taskmanager.security.UserDetailsServiceImpl;
 import com.stefanini.taskmanager.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.UnexpectedRollbackException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1")
 public class AppController {
 
-    private final UserDetailsService userDetailsService;
-    private final UserService userService;
+    private UserDetailsService userDetailsService;
+    private UserService userService;
 
     public AppController(UserDetailsService userDetailsService, UserService userService) {
         this.userDetailsService = userDetailsService;
@@ -25,6 +30,8 @@ public class AppController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegistrationRequest registrationRequest) {
+
+        System.out.println("!");
 
         try {
             User user = new User();
