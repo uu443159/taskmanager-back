@@ -6,6 +6,7 @@ import com.stefanini.taskmanager.repository.UserRepository;
 import com.stefanini.taskmanager.repository.UserRoleRepository;
 import com.stefanini.taskmanager.security.RegistrationRequest;
 import com.stefanini.taskmanager.service.UserService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class UserServiceImpl implements UserService {
     private final UserRoleRepository userRoleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, UserRoleRepository userRoleRepository, @Lazy PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.passwordEncoder = passwordEncoder;
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
     public void addUser(RegistrationRequest registrationRequest) {
 
         User user = new User();
-        UserRole userRole = userRoleRepository.findById(2);
+        UserRole userRole = userRoleRepository.findByRoleName(registrationRequest.getRoleName());
 
         user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
         user.setUserName(registrationRequest.getUserName());
@@ -39,6 +40,7 @@ public class UserServiceImpl implements UserService {
         user.setLastName(registrationRequest.getLastName());
 
         user.setUserRole(userRole);
+        userRepository.create(user);
 
     }
 

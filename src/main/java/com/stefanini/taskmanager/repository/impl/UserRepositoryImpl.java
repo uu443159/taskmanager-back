@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
 
 @Repository
 public class UserRepositoryImpl extends GenericRepositoryImpl<User> implements UserRepository {
@@ -24,7 +25,10 @@ public class UserRepositoryImpl extends GenericRepositoryImpl<User> implements U
 
     @Override
     public User findByName(String userName) {
-        User user = entityManager.find(getEntityClass(), userName);
+        Query query = entityManager.createQuery("SELECT r FROM " + getEntityClass().getSimpleName() + " r WHERE r.userName=:userName");
+        query.setParameter("userName", userName);
+        User user = (User) query.getSingleResult();
+
         if (user == null) {
             throw new EntityNotFoundException("Can't find " + getEntityClass().getSimpleName() + " for user name = " + userName);
         }

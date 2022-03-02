@@ -31,8 +31,6 @@ public class AppController {
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegistrationRequest registrationRequest) {
 
-        System.out.println("!");
-
         try {
 
             userService.addUser(registrationRequest);
@@ -45,6 +43,7 @@ public class AppController {
 
     @PostMapping("/auth")
     public ResponseEntity<?> auth(@RequestBody AuthRequest request) {
+        System.out.println("auth");
         try {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(((UserDetailsServiceImpl) userDetailsService).login(request));
         } catch (AuthenticationException ex) {
