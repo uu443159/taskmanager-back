@@ -1,4 +1,4 @@
-package com.stefanini.taskmanager.security;
+package com.stefanini.taskmanager.response;
 
 import lombok.Data;
 

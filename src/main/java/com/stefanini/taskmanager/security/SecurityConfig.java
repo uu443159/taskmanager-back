@@ -42,6 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/register", "/api/v1/auth").permitAll()
                 .antMatchers("/api/**").authenticated()
                 .and()
+                .addFilterBefore(getCorsFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(getJwtFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
@@ -58,5 +59,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public JwtFilter getJwtFilter() {
         return new JwtFilter(jwtProvider);
+    }
+
+    @Bean
+    public CorsFilter getCorsFilter() {
+        return new CorsFilter();
     }
 }

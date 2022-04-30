@@ -1,10 +1,16 @@
 package com.stefanini.taskmanager.controller;
 
 import com.stefanini.taskmanager.model.Task;
+import com.stefanini.taskmanager.request.AddTaskRequest;
+import com.stefanini.taskmanager.response.TaskResponse;
 import com.stefanini.taskmanager.service.TaskService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("api/v1/task")
@@ -17,16 +23,16 @@ public class TaskController {
     }
 
     @PostMapping("/save")
-    public String addTaskToUser(@RequestParam String userName, @RequestParam String title, @RequestParam String description) {
+    public ResponseEntity<?> addTaskToUser(@RequestBody AddTaskRequest request) {
         Task task = new Task();
 
-        task.setUserName(userName);
-        task.setTitle(title);
-        task.setDescription(description);
+        task.setUserName(request.getUserName());
+        task.setTitle(request.getTaskTitle());
+        task.setDescription(request.getTaskDescription());
 
         taskService.addTask(task);
 
-        return "Saved";
+        return ResponseEntity.status(HttpStatus.CREATED).body("Task has been created");
     }
 
     @PutMapping("/update/{id}")
@@ -56,8 +62,10 @@ public class TaskController {
     }
 
     @GetMapping("/all")
-    public List<Task> getAllTasks() {
-        return taskService.showAllTasks();
+    public ResponseEntity<?> getAllTasks() {
+        List<Task> tasks = taskService.showAllTasks();
+        List<TaskResponse> taskResponses = tasks.stream().map(task -> new TaskResponse(task.getTitle(), task.getDescription())).collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.FOUND).body(taskResponses);
     }
 
     @DeleteMapping("/delete/{id}")

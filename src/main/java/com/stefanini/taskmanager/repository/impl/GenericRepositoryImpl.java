@@ -5,6 +5,10 @@ import com.stefanini.taskmanager.repository.GenericRepository;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 public abstract class GenericRepositoryImpl<T> implements GenericRepository<T> {
@@ -47,7 +51,12 @@ public abstract class GenericRepositoryImpl<T> implements GenericRepository<T> {
 
     @Override
     public List<T> findAll() {
-        return entityManager.createNativeQuery(getQuery() + getEntityClass().getSimpleName()).getResultList();
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(getEntityClass());
+        Root<T> rootEntry = cq.from(getEntityClass());
+        CriteriaQuery<T> all = cq.select(rootEntry);
+        TypedQuery<T> allQuery = entityManager.createQuery(all);
+        return allQuery.getResultList();
     }
 
     @Override

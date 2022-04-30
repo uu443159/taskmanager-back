@@ -1,5 +1,6 @@
 package com.stefanini.taskmanager.security;
 
+import com.stefanini.taskmanager.response.AuthResponse;
 import com.stefanini.taskmanager.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

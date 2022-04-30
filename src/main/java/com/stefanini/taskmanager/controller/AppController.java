@@ -1,8 +1,6 @@
 package com.stefanini.taskmanager.controller;
 
-import com.stefanini.taskmanager.model.User;
-import com.stefanini.taskmanager.model.UserRole;
-import com.stefanini.taskmanager.security.AuthRequest;
+import com.stefanini.taskmanager.request.AuthRequest;
 import com.stefanini.taskmanager.security.RegistrationRequest;
 import com.stefanini.taskmanager.security.UserDetailsServiceImpl;
 import com.stefanini.taskmanager.service.UserService;

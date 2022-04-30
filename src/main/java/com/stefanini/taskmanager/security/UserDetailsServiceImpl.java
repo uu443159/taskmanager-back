@@ -1,9 +1,10 @@
 package com.stefanini.taskmanager.security;
 
 import com.stefanini.taskmanager.model.User;
+import com.stefanini.taskmanager.request.AuthRequest;
+import com.stefanini.taskmanager.response.AuthResponse;
 import com.stefanini.taskmanager.service.UserService;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
