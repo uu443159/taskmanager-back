@@ -34,11 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public AuthResponse login(AuthRequest authRequest) {
-        System.out.println("login");
-
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getLogin(), authRequest.getPassword()));
-
-        System.out.println("after");
         return jwtProvider.generateToken(authentication);
     }
 

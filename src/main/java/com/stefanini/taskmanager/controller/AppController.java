@@ -1,7 +1,7 @@
 package com.stefanini.taskmanager.controller;
 
 import com.stefanini.taskmanager.request.AuthRequest;
-import com.stefanini.taskmanager.security.RegistrationRequest;
+import com.stefanini.taskmanager.request.RegistrationRequest;
 import com.stefanini.taskmanager.security.UserDetailsServiceImpl;
 import com.stefanini.taskmanager.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -41,7 +41,6 @@ public class AppController {
 
     @PostMapping("/auth")
     public ResponseEntity<?> auth(@RequestBody AuthRequest request) {
-        System.out.println("auth");
         try {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(((UserDetailsServiceImpl) userDetailsService).login(request));
         } catch (AuthenticationException ex) {

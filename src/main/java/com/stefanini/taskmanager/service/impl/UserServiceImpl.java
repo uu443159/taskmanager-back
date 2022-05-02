@@ -4,7 +4,7 @@ import com.stefanini.taskmanager.model.User;
 import com.stefanini.taskmanager.model.UserRole;
 import com.stefanini.taskmanager.repository.UserRepository;
 import com.stefanini.taskmanager.repository.UserRoleRepository;
-import com.stefanini.taskmanager.security.RegistrationRequest;
+import com.stefanini.taskmanager.request.RegistrationRequest;
 import com.stefanini.taskmanager.service.UserService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
