@@ -51,6 +51,12 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
+    public List<Task> showTasksByUserName(String userName) {
+        return taskRepository.getTasksByUserName(userName);
+    }
+
+    @Override
+    @Transactional
     public void removeTaskById(long id) {
         taskRepository.deleteById(id);
     }

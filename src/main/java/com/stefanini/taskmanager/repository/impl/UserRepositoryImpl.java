@@ -19,11 +19,6 @@ public class UserRepositoryImpl extends GenericRepositoryImpl<User> implements U
     }
 
     @Override
-    protected String getQuery() {
-        return "SELECT id, first_name, last_name, user_name FROM ";
-    }
-
-    @Override
     public User findByName(String userName) {
         Query query = entityManager.createQuery("SELECT r FROM " + getEntityClass().getSimpleName() + " r WHERE r.userName=:userName");
         query.setParameter("userName", userName);

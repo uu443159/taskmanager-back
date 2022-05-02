@@ -16,11 +16,6 @@ public class UserRoleRepositoryImpl extends GenericRepositoryImpl<UserRole> impl
     }
 
     @Override
-    protected String getQuery() {
-        return null;
-    }
-
-    @Override
     public UserRole findByRoleName(String roleName) {
         Query query = entityManager.createQuery("SELECT r FROM " + getEntityClass().getSimpleName() + " r WHERE r.roleName=:roleName");
         query.setParameter("roleName", roleName);

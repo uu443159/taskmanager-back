@@ -23,7 +23,6 @@ public abstract class GenericRepositoryImpl<T> implements GenericRepository<T> {
         entityManager.persist(entity);
         entityManager.flush();
 
-        System.out.println("dao");
         return entity;
     }
 
@@ -66,6 +65,4 @@ public abstract class GenericRepositoryImpl<T> implements GenericRepository<T> {
         entityManager.remove(entity);
         entityManager.flush();
     }
-
-    protected abstract String getQuery();
 }

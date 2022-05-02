@@ -32,46 +32,30 @@ public class TaskController {
 
         taskService.addTask(task);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Task has been created");
+        String responseMessage = "Task has been created";
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseMessage);
     }
 
-    @PutMapping("/update/{id}")
-    public String updateTask(@PathVariable(value = "id") Long taskId, @RequestParam String userName, @RequestParam String title, @RequestParam String description) {
-        Task task = taskService.showTaskById(taskId);
-
-        task.setUserName(userName);
-        task.setTitle(title);
-        task.setDescription(description);
-
-        taskService.updateTask(task);
-
-        return "Updated";
-
-    }
-
-    @DeleteMapping("/delete")
-    public String deleteTask(@RequestBody Task task) {
-        taskService.removeTask(task);
-
-        return "Deleted";
-    }
-
-    @GetMapping("/{id}")
-    public Task getTaskById(@PathVariable(value = "id") Long taskId) {
-        return taskService.showTaskById(taskId);
+    @GetMapping("/{userName}/all")
+    public ResponseEntity<?> getTasksByUserName(@PathVariable String userName) {
+        List<Task> tasks = taskService.showTasksByUserName(userName);
+        List<TaskResponse> taskResponses = tasks.stream().map(task -> new TaskResponse(task.getId(), task.getTitle(), task.getDescription())).collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(taskResponses);
     }
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllTasks() {
         List<Task> tasks = taskService.showAllTasks();
-        List<TaskResponse> taskResponses = tasks.stream().map(task -> new TaskResponse(task.getTitle(), task.getDescription())).collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.FOUND).body(taskResponses);
+        List<TaskResponse> taskResponses = tasks.stream().map(task -> new TaskResponse(task.getId(), task.getTitle(), task.getDescription())).collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(taskResponses);
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteTaskById(@PathVariable(value = "id") Long taskId) {
+    public ResponseEntity<?> deleteTaskById(@PathVariable(value = "id") Long taskId) {
         taskService.removeTaskById(taskId);
 
-        return "Deleted";
+        String responseMessage = "Deleted";
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
     }
 }
